@@ -1,0 +1,80 @@
+
+service: server-example
+frameworkVersion: ">=1.28.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: ${opt:stage, 'dev'}
+  region: ap-southeast-1
+  environment:
+    REGION: "ap-southeast-1"
+    USER_TABLE: UserRecords
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: "*"
+
+package:
+ exclude:
+   - ./**
+ include:
+   - ./bin/**
+
+functions:
+  details:
+    handler: bin/details
+    environment:
+      USER_TABLE: UserRecords
+    events:
+      - http:
+          path: /user/details
+          method: get
+          cors: true
+
+  profile:
+    handler: bin/details
+    environment:
+      USER_TABLE: UserRecords
+    events:
+      - http:
+          path: /user/details/{id}
+          method: get
+          cors: true
+
+  insert:
+    handler: bin/insert
+    environment:
+      USER_TABLE: UserRecords
+    events:
+      - http:
+          path: /user/insert
+          method: post
+          cors: true
+
+  search:
+    handler: bin/search
+    environment:
+      USER_TABLE: UserRecords
+    events:
+      - http:
+          path: /user/search/{email}
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    userTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserRecords
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
