@@ -13,7 +13,7 @@ Serverless example using Golang with DynamoDB
 0. Clone the repo
 
 ```
-git clone git@github.com:macadrich/go-serverless-example.git
+git clone https://github.com/macadrich/go-serverless-example.git
 cd go-serverless-example
 ```
 
@@ -23,15 +23,13 @@ cd go-serverless-example
 dep ensure
 ```
 
-2. Compile functions as individual binaries for deployment package:
+2. Compile functions for deployment package:
 
 ```
 make
 ```
 
-> You need to perform this compilation step before deploying.
-
-3. Deploy!
+3. Deploy
 
 ```
 serverless deploy
