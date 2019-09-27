@@ -6,9 +6,9 @@ provider:
   name: aws
   runtime: go1.x
   stage: ${opt:stage, 'dev'}
-  region: ap-southeast-1
+  region: your-region-here
   environment:
-    REGION: "ap-southeast-1"
+    REGION: "your-region-here"
     USER_TABLE: UserRecords
   iamRoleStatements:
     - Effect: Allow
